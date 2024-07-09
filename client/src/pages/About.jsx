@@ -12,9 +12,9 @@ const About = () => {
         <>
             {/* First Section  */}
             <div className="min-h-screen flex flex-col items-center justify-center w-full">
-                <div className="flex w-full justify-start md:pl-20 ">
+                <div className="flex w-full relative justify-start md:pl-20 ">
                     <motion.img src={aboutImage} alt="" className='rounded-full w-60 md:w-80 relative '
-                        initial={{ x: -100 }}
+                        initial={{ x: -10 }}
                         animate={{ x: 10 }}
                         transition={{
                             duration: 1,
@@ -25,7 +25,7 @@ const About = () => {
                     <p className='absolute flex-col top-20 md:ml-20 text-sm md:text-4xl md:left-80 left-52 flex gap-2 '
                     >Hi, I am <motion.span className='bg-indigo-600 font-semibold py-1 text-xs md:text-4xl rounded-md  px-2'
 
-                        initial={{ x: 400 }}
+                        initial={{ x: 30 }}
                         animate={{ x: 10 }}
                         transition={{
                             duration: 1,
@@ -52,7 +52,7 @@ const About = () => {
                     <div className="">
                         <motion.img src={sideImg} alt="" className='w-80 md:block hidden'
 
-                            initial={{ x: 400 }}
+                            initial={{ x: 100 }}
                             animate={{ x: 10 }}
                             transition={{
                                 duration: 1,
