@@ -19,7 +19,7 @@ import UpdateBlog from './pages/UpdateBlog';
 import ShowBlog from './pages/ShowBlog';
 import ForgetPassword from './pages/ForgetPassword';
 import ScrollToTop from './components/ScrollToTop';
-
+import Search from './components/Search';
 
 
 
@@ -40,7 +40,8 @@ const App = () => {
                                 <Route path='/contact' element={<Contact />} />
                                 <Route path='/register' element={<Register />} />
                                 <Route path='/login' element={<Login />} />
-                                <Route path='/blog/:blogSlug' element=<ShowBlog /> />
+                                <Route path='/blog/:blogSlug' element={<ShowBlog />} />
+                                <Route path='/search' element={<Search />} />
                                 <Route path='/forget-password' element={<ForgetPassword />} />
                                 <Route element={<PrivateRoute />}>
                                     <Route path='/dashboard' element={<Dashboard />} />

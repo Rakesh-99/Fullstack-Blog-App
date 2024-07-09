@@ -1,14 +1,10 @@
 import { useEffect, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { TbHome } from "react-icons/tb";
-import { MdOutlineContactMail } from "react-icons/md";
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { CgUserlane } from "react-icons/cg";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineClose } from "react-icons/ai";
-import { IoIosArrowDropright } from "react-icons/io";
 import { LuSunMedium } from "react-icons/lu";
 import { HiMoon } from "react-icons/hi";
-import { FaRegUserCircle } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { changeTheme } from '../features/themeSlice';
@@ -33,6 +29,10 @@ const Header = () => {
     const [dropDown, setDropDown] = useState(false);
     const dispatch = useDispatch();
     const { theme } = useSelector((state) => state.themeSliceApp);
+    const navigate = useNavigate();
+
+
+
 
 
 
@@ -63,6 +63,18 @@ const Header = () => {
             signOutUserFailure(error);
         }
 
+
+    }
+
+
+
+    const submitHandle = (e) => {
+        e.preventDefault();
+        const response = new URLSearchParams(location.search);
+        response.set('searchData', searchData);
+
+        const data = response.toString();
+        navigate(`/search?${data}`);
 
     }
 
@@ -112,7 +124,12 @@ const Header = () => {
 
                     <div className="flex items-center relative">
 
-                        <input type="text" name='' placeholder='Search...' className={`transition-all focus:bg-blue-50 py-2 px-4 outline-none rounded-md border border-gray-500  ${theme === 'dark' && ' transition-all focus:bg-gray-600  bg-gray-700'}`} />
+                        <form action="" onSubmit={submitHandle}>
+                            <input type="text" name='' placeholder='Search...' className={`transition-all focus:bg-blue-50 py-2 px-4 outline-none rounded-md border border-gray-500  ${theme === 'dark' && ' transition-all focus:bg-gray-600  bg-gray-700'}`} />
+                        </form>
+
+
+
                         <IoMdSearch size={19} color='gray' className='absolute right-2' />
                     </div>
 
@@ -160,9 +177,6 @@ const Header = () => {
                                 }
 
                             </div>
-
-
-
                             :
                             <div className="">
                                 {location.pathname === `/login` || location.pathname === `/register` ? <></> :
@@ -174,7 +188,6 @@ const Header = () => {
                             </div>
                     }
                 </div>
-
 
                 {/* For smaller screen devices : */}
 
@@ -282,11 +295,7 @@ const Header = () => {
                 }
 
             </nav >
-
-
-
-
         </>
     )
 }
-export default Header
+export default Header;
