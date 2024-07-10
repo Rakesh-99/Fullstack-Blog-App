@@ -39,10 +39,8 @@ const AllComments = () => {
                     });
                     const response = commentInfo.data.comments;
                     setAllComments(response);
-                    if (response.length > 8) {
-                        setShowMoreButton(true)
-                    } else {
-                        setShowMoreButton(false)
+                    if (response.length > 4) {
+                        setShowMoreButton(true);
                     }
                 } catch (error) {
                     console.log(error.message);
@@ -69,14 +67,19 @@ const AllComments = () => {
                 headers: {
                     Authorization: user.token
                 },
+               
             });
 
             if (response.status === 200) {
-                setAllComments([...getAllComments, ...response.data.comments]);
-                setStartPage(startPage + 1);
+                const newComment = response.data.comments;
+                setStartPage(startPage + 1)
+                console.log(newComment);
+                setAllComments([...getAllComments, ...newComment])
+
+
                 if (response.data.comments.length === 0) {
-                    setShowMoreButton(false)
-                    toast.success('All comments have been fetched ')
+                    setShowMoreButton(false);
+                    toast.success('All blogs have been fetched');
                 }
             }
         } catch (error) {
@@ -229,7 +232,7 @@ const AllComments = () => {
                     <div className="text-center my-5">
                         <button
                             onClick={showMoreCommentButton}
-                            className={`transition-all active:scale-95 hover:bg-blue-900 py-1 font-semibold text-sm px-2 border-2 rounded-md  ${theme === "dark"
+                            className={`transition-all active:scale-95 hover:bg-blue-900 py-2 font-semibold text-sm px-2 border-2 rounded-md  ${theme === "dark"
                                 ? "bg-gray-700 active:bg-gray-800 text-gray-200 border-gray-400"
                                 : "active:bg-gray-600 active:text-white hover:text-white bg-gray-300 text-gray-800 border-gray-500"
                                 }`}
