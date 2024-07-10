@@ -11,7 +11,7 @@ const GithubCalenderFunc = () => {
 
     return (
         <>
-            <div className={`flex flex-col w-80 border rounded-md px-2 py-1 shadow-lg overflow-x-scroll scrollbar  md:w-full items-center ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
+            <div className={`flex flex-col w-80 border rounded-md px-2 py-1 shadow-lg scrollbar  md:w-full items-center ${theme === 'dark' ? 'border-gray-700' : 'border-gray-200'}`}>
                 <div className="">
 
                     <p className='flex mb-5  justify-center font-semibold gap-2 text-xl'>Days I spend in coding
