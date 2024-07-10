@@ -12,7 +12,7 @@ const ThemeProvider = ({ children }) => {
 
 
     return (
-        <div className={`${theme} ${theme === 'light' ? 'bg-blue-50 text-gray-900' : 'bg-zinc-800 text-gray-300'}`}>
+        <div className={`${theme} ${theme === 'light' ? 'bg-blue-50 text-zinc-700' : 'bg-zinc-800 text-zinc-200'}`}>
             {children}
         </div>
     )
