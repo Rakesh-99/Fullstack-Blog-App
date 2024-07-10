@@ -14,7 +14,7 @@ import { CgProfile } from "react-icons/cg";
 import { PiSignOutDuotone } from "react-icons/pi";
 import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md";
 import { motion } from 'framer-motion';
-
+import Search from './Search';
 
 
 
@@ -22,6 +22,7 @@ import { motion } from 'framer-motion';
 
 const Header = () => {
 
+    const [showSearchComponent, setShowSearchComponent] = useState(false)
     const location = useLocation();
     const [toggleTheme, setToggleTheme] = useState(false);
     const [toggleNavBtn, setToggleNavBtn] = useState(false);
@@ -30,6 +31,7 @@ const Header = () => {
     const dispatch = useDispatch();
     const { theme } = useSelector((state) => state.themeSliceApp);
     const navigate = useNavigate();
+    const [searchBlog, setSearchBlog] = useState('');
 
 
 
@@ -67,16 +69,32 @@ const Header = () => {
     }
 
 
-
     const submitHandle = (e) => {
         e.preventDefault();
-        const response = new URLSearchParams(location.search);
-        response.set('searchData', searchData);
-
-        const data = response.toString();
-        navigate(`/search?${data}`);
-
+        const getURL = new URLSearchParams(location.search);
+        getURL.set('searchBlog', searchBlog);
+        const stringConversion = getURL.toString();
+        navigate(`/search?${stringConversion}`);
     }
+
+
+    useEffect(() => {
+        const getURL = new URLSearchParams(location.search);
+        const getData = getURL.get('searchBlog');
+        if (getData) {
+            setSearchBlog(getData);
+        }
+    }, [location.search]);
+
+
+
+
+
+
+    const mobileSearchHandle = () => {
+        navigate('/search');
+    }
+
 
 
 
@@ -84,10 +102,11 @@ const Header = () => {
 
         <>
             <nav className={`z-20 sticky top-0 border-b shadow-sm md:px-10 px-2 py-2 ${theme === 'dark' ? 'bg-zinc-800 border-gray-700' : 'bg-blue-100 border-gray-300'} `}>
-
                 {/* For larger screen devices : */}
 
                 <div className='md:flex hidden justify-between z-20'>
+
+
 
 
                     <NavLink className=" flex items-center cursor-pointer" to={'/'}>
@@ -125,7 +144,7 @@ const Header = () => {
                     <div className="flex items-center relative">
 
                         <form action="" onSubmit={submitHandle}>
-                            <input type="text" name='' placeholder='Search...' className={`transition-all focus:bg-blue-50 py-2 px-4 outline-none rounded-md border border-gray-500  ${theme === 'dark' && ' transition-all focus:bg-gray-600  bg-gray-700'}`} />
+                            <input value={searchBlog} onChange={(e) => setSearchBlog(e.target.value)} type="text" name='' placeholder='Search...' className={`transition-all focus:bg-blue-50 py-2 px-4 outline-none rounded-md border border-gray-500  ${theme === 'dark' && ' transition-all focus:bg-gray-600  bg-gray-700'}`} />
                         </form>
 
 
@@ -212,7 +231,7 @@ const Header = () => {
 
 
                     <button className="flex items-center">
-                        <IoMdSearch size={25} className='active:scale-90 active:text-blue-600 transition-all' />
+                        <IoMdSearch size={25} className='active:scale-90 active:text-blue-600 transition-all' onClick={mobileSearchHandle} />
                     </button>
 
                     <div className="flex items-center cursor-pointer rounded-full " onClick={themeToggle}>
@@ -295,6 +314,10 @@ const Header = () => {
                 }
 
             </nav >
+
+            {
+                showSearchComponent && <Search />
+            }
         </>
     )
 }
