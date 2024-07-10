@@ -116,7 +116,7 @@ const Header = () => {
                                     transition={{
                                         duration: 1,
                                         delay: 0
-                                    }}>About me
+                                    }}>About
                                 </motion.p>
                             </NavLink>
                         </div>
