@@ -92,7 +92,7 @@ const Header = () => {
 
 
     const mobileSearchHandle = () => {
-        navigate('/search');
+        navigate('/search?searchblog=&sort=asc');
     }
 
 
