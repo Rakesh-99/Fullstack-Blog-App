@@ -2,10 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import blogLoader from '../assests/blogSpinner/BlogLoader';
 import NodataImg from '../assests/No data.png';
-
-
+import Spinner from '../assests/blogSpinner/BlogLoader';
+import toast, { Toaster } from 'react-hot-toast'; { Toaster };
 
 
 
@@ -18,6 +17,7 @@ const Search = () => {
     const [loading, setLoading] = useState(false);
     const [showMoreButton, setShowMoreButton] = useState(false);
     const navigate = useNavigate();
+    const [startPage, setStartPage] = useState(1);
 
 
 
@@ -64,7 +64,7 @@ const Search = () => {
                         setLoading(false)
                         setBlogs(response.data.blogs);
 
-                        if (response.data.blogs.length > 9) {
+                        if (response.data.blogs.length > 7) {
                             setShowMoreButton(true)
                         } else {
                             setShowMoreButton(false)
@@ -91,6 +91,24 @@ const Search = () => {
         const textUrl = URL.toString();
         navigate(`/search?${textUrl}`)
 
+    }
+
+    const showMoreHandle = async () => {
+        try {
+            const response = await axios.get(`/api/blog/get-all-blogs?page=${startPage + 1}`);
+
+            if (response.status === 200) {
+                setStartPage(startPage + 1);
+                console.log(response.data.blogs);
+
+                setBlogs([...blogs, ...response.data.blogs])
+
+                toast.success('All blogs have been fetched');
+                setShowMoreButton(false)
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
     }
 
 
@@ -131,12 +149,12 @@ const Search = () => {
                                 value={formData.blogcategory} >
 
                                 <option value="" disabled>Select category</option>
-                                <option value="uncategorized">uncategorized</option>
+                                <option value="all">uncategorized</option>
                                 <option value="Java">Java</option>
-                                <option value="Javascript">JavaScript</option>
-                                <option value="React.Js">React Js</option>
+                                <option value="Javascript">Javascript</option>
+                                <option value="React Js">React Js</option>
                                 <option value="Git">Git</option>
-                                <option value="MongoDB">MongoDB</option>
+                                <option value="Mongo DB">MongoDB</option>
                             </select>
                         </div>
 
@@ -150,10 +168,9 @@ const Search = () => {
                 {/* right  screen*/}
 
                 {
-                    loading === true ? <blogLoader /> :
+                    loading === true ? <Spinner /> :
 
                         <div className="flex flex-wrap px-5 w-full my-10 gap-4 justify-center">
-
 
                             {
                                 blogs.length > 0
@@ -164,7 +181,7 @@ const Search = () => {
                                         return (
                                             <div
                                                 key={index}
-                                                className={`shadow-md border hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
+                                                className={`shadow-md  min-h-80 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
 
                                                 <Link to={`/blog/${value?.slug}`}>
                                                     <img src={value?.blogImgFile} className='hover:scale-95 transition-all w-96 h-60 rounded-tl-xl rounded-br-xl' />
@@ -188,6 +205,11 @@ const Search = () => {
                 }
 
             </div>
+
+            {
+                showMoreButton && <div className='text-center mb-10'><button onClick={showMoreHandle} className=' font-semibold text-teal-600 hover:underline'>Show More</button></div>
+            }
+
         </>
     )
 }
