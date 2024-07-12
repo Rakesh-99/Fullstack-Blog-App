@@ -181,10 +181,10 @@ const Search = () => {
                                         return (
                                             <div
                                                 key={index}
-                                                className={`shadow-md  min-h-80 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? 'border-gray-700' : 'border-gray-300'}`}>
+                                                className={`shadow-md max-h-60 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? ' shadow-gray-600' : 'shadow-gray-400'}`}>
 
                                                 <Link to={`/blog/${value?.slug}`}>
-                                                    <img src={value?.blogImgFile} className='hover:scale-95 transition-all w-96 h-60 rounded-tl-xl rounded-br-xl' />
+                                                    <img src={value?.blogImgFile} className='hover:scale-90 transition-all w-96 h-60 rounded-tl-xl rounded-br-xl' />
 
                                                     <div className="px-3">
                                                         <p className='text-lg md:text-xl'>{value?.blogTitle}</p>
