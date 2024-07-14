@@ -24,7 +24,7 @@ const Search = () => {
     const [formData, setFormData] = useState({
         searchblog: '',
         sortblog: 'latest',
-        blogcategory: 'uncategorized'
+        blogcategory: ''
 
     });
 
@@ -149,7 +149,6 @@ const Search = () => {
                                 value={formData.blogcategory} >
 
                                 <option value="" disabled>Select category</option>
-                                <option value="all">uncategorized</option>
                                 <option value="Java">Java</option>
                                 <option value="Javascript">Javascript</option>
                                 <option value="React Js">React Js</option>
@@ -181,7 +180,7 @@ const Search = () => {
                                         return (
                                             <div
                                                 key={index}
-                                                className={`shadow-md max-h-60 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? ' shadow-gray-600' : 'shadow-gray-400'}`}>
+                                                className={`shadow-md my-10 mx-2 max-h-60 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? ' shadow-gray-600' : 'shadow-gray-400'}`}>
 
                                                 <Link to={`/blog/${value?.slug}`}>
                                                     <img src={value?.blogImgFile} className='hover:scale-90 transition-all w-96 h-60 rounded-tl-xl rounded-br-xl' />
