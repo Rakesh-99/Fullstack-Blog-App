@@ -58,7 +58,7 @@ const Home = () => {
 
 
           {/* left content  */}
-          <div className="flex flex-col gap-5 w-10/12 md:w-1/2">
+          <div className="flex items-center flex-col gap-5 w-10/12 md:w-1/2">
 
             <motion.h1 className='md:text-4xl lg:text-4xl text-xl font-bold text-transparent  bg-clip-text bg-gradient-to-r from-purple-500 to-yellow-300'
 
@@ -75,7 +75,7 @@ const Home = () => {
 
 
 
-            <hr className='' />
+            <hr className={`border animate-bounce w-full ${theme === 'dark' ? 'border-gray-600' : 'border-gray-200'}`} />
 
             <motion.p className='text-sm text-justify  leading-8'
 
