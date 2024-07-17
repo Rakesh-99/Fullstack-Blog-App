@@ -23,7 +23,7 @@ const Search = () => {
 
     const [formData, setFormData] = useState({
         searchblog: '',
-        sortblog: 'latest',
+        sortblog: 'asc',
         blogcategory: ''
 
     });
@@ -80,6 +80,26 @@ const Search = () => {
     }, [location.search]);
 
 
+
+    const fetchAllBlogPost = async () => {
+        try {
+            const response = await axios.get(`/api/blog/get-all-blogs`);
+            if (response.status === 200) {
+                setBlogs(response.data.blogs);
+
+                if (response.data.blogs.length > 7) {
+                    setShowMoreButton(true)
+                } else {
+                    setShowMoreButton(false)
+
+                }
+            }
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
+
     const submitHandle = (e) => {
         e.preventDefault();
         const URL = new URLSearchParams(location.search);
@@ -89,6 +109,10 @@ const Search = () => {
 
 
         const textUrl = URL.toString();
+
+        if (textUrl.includes(`searchBlog=&sort=asc&category=all`) || textUrl.includes(`searchblog=&sort=asc&searchBlog=&category=all`)) {
+            fetchAllBlogPost();
+        }
         navigate(`/search?${textUrl}`)
 
     }
@@ -115,7 +139,7 @@ const Search = () => {
 
     return (
         <>
-            <div className="min-h-screen md:flex-row flex-col flex">
+            <div className="min-h-screen md:flex-row my-10 flex-col flex">
 
                 {/* left screen  */}
                 <div className="">
@@ -149,6 +173,7 @@ const Search = () => {
                                 value={formData.blogcategory} >
 
                                 <option value="" disabled>Select category</option>
+                                <option value="all">Show All</option>
                                 <option value="Java">Java</option>
                                 <option value="Javascript">Javascript</option>
                                 <option value="React Js">React Js</option>
@@ -167,47 +192,65 @@ const Search = () => {
                 {/* right  screen*/}
 
                 {
-                    loading === true ? <Spinner /> :
 
-                        <div className="flex flex-wrap px-5 w-full my-10 gap-4 justify-center">
+                    loading === true ?
+
+                        <div className="mt-20 flex justify-center items-center">
+                            <Spinner />
+                        </div> :
+                        <div className="w-full justify-center items-center flex-col">
+
+                            <div className="flex flex-col justify-center items-center md:block">
+                                <h1 className='mt-5 text-xl md:text-2xl  text-blue-300 font-semibold ml-10'>Search results</h1>
+                                <hr className={`w-60 border mt-2 ml-5 ${theme === 'dark' ? 'border-zinc-700' : 'border-blue-200'}`} />
+                            </div>
+
+
+                            <div className="flex flex-wrap px-5 w-full my-10 gap-4 justify-center">
+
+                                {
+                                    blogs.length > 0
+
+                                        ?
+
+                                        blogs && blogs.map((value, index) => {
+                                            return (
+                                                <div
+                                                    key={index}
+                                                    className={`shadow-md my-10 mx-2 max-h-60 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? ' shadow-blue-950' : 'shadow-gray-200'}`}>
+
+                                                    <Link to={`/blog/${value?.slug}`}>
+                                                        <img src={value?.blogImgFile} className='hover:scale-90 transition-all w-96 h-60 rounded-tl-xl rounded-br-xl' />
+
+                                                        <div className="px-3">
+                                                            <p className='text-lg md:text-xl'>{value?.blogTitle}</p>
+                                                            <span className='text-xs md:text-sm w-20 text-center border px-4 rounded-full'>{value?.blogCategory}</span>
+                                                        </div>
+                                                    </Link>
+                                                </div>
+                                            )
+                                        })
+                                        :
+
+                                        <div className="w-full flex  flex-col items-center">
+                                            <img src={NodataImg} className='w-96' />
+                                            <h1 className='text-xl  font-bold'>Oops ! No blogs found</h1>
+                                        </div>
+                                }
+                            </div>
 
                             {
-                                blogs.length > 0
-
-                                    ?
-
-                                    blogs && blogs.map((value, index) => {
-                                        return (
-                                            <div
-                                                key={index}
-                                                className={`shadow-md my-10 mx-2 max-h-60 hover:scale-95 transition-all w-96 rounded-tl-xl rounded-br-xl pb-5 cursor-pointer ${theme === 'dark' ? ' shadow-gray-600' : 'shadow-gray-400'}`}>
-
-                                                <Link to={`/blog/${value?.slug}`}>
-                                                    <img src={value?.blogImgFile} className='hover:scale-90 transition-all w-96 h-60 rounded-tl-xl rounded-br-xl' />
-
-                                                    <div className="px-3">
-                                                        <p className='text-lg md:text-xl'>{value?.blogTitle}</p>
-                                                        <span className='text-xs md:text-sm w-20 text-center border px-4 rounded-full'>{value?.blogCategory}</span>
-                                                    </div>
-                                                </Link>
-                                            </div>
-                                        )
-                                    })
-                                    :
-
-                                    <div className="w-full flex  flex-col items-center">
-                                        <img src={NodataImg} className='w-96' />
-                                        <h1 className='text-xl  font-bold'>Oops ! No blogs found</h1>
-                                    </div>
+                                showMoreButton
+                                && <div className='text-center mb-10'><button onClick={showMoreHandle} className=' font-semibold text-teal-600 hover:underline'>Show More</button></div>
                             }
                         </div>
+
                 }
+
 
             </div>
 
-            {
-                showMoreButton && <div className='text-center mb-10'><button onClick={showMoreHandle} className=' font-semibold text-teal-600 hover:underline'>Show More</button></div>
-            }
+
 
         </>
     )
