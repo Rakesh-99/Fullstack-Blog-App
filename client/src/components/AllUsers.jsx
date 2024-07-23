@@ -22,7 +22,7 @@ const AllUsers = () => {
     const [getAllUsers, setAllUsers] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [userId, setUserId] = useState("");
-    const [startPage, setStartPage] = useState(3);
+    const [startPage, setStartPage] = useState(1);
 
 
 
@@ -93,25 +93,28 @@ const AllUsers = () => {
 
 
     const showMoreUserButton = async () => {
-
-        setStartPage(startPage + 1);
-
         try {
-            const showMoreUser = await axios.get(`/api/user/getusers?page=${startPage}`, {
+            const showMoreUser = await axios.get(`/api/user/getusers?page=${startPage + 1}`, {
                 headers: {
                     Authorization: user.token
                 }
             })
-            if (showMoreUser.status === 200) {
-                console.log(showMoreUser.data.user);
 
-                if (showMoreUser.data.user.length > 0) {
-                    setStartPage((prevPage) => prevPage + 1)
-                    setAllUsers([...prevUsers, ...showMoreUser.data.user]);
-                } else {
-                    setShowMoreButton(false);
+
+            if (showMoreUser.status === 200) {
+
+                const user = showMoreUser.data.user;
+
+                setStartPage(startPage + 1);
+                setAllUsers([...getAllUsers, ...user]);
+
+                if (user.length === 0) {
+                    setShowMoreButton(false)
+                    toast.success('All user have been fetched');
                 }
             }
+
+
         } catch (error) {
             console.log(error.message);
         }
@@ -243,8 +246,8 @@ const AllUsers = () => {
                     <div className="text-center my-5">
                         <button
                             onClick={showMoreUserButton}
-                            className={`transition-all active:scale-95 hover:bg-blue-900 py-2 font-semibold text-sm px-2 border-2 rounded-md  ${theme === "dark"
-                                ? "bg-gray-700 active:bg-gray-800 text-gray-200 border-gray-400"
+                            className={`transition-all active:scale-95 hover:bg-blue-900 py-1 font-semibold text-xs px-2 border rounded-sm ${theme === "dark"
+                                ? "bg-gray-700 active:bg-gray-800 text-gray-300 border-gray-400"
                                 : "active:bg-gray-600 active:text-white hover:text-white bg-gray-300 text-gray-800 border-gray-500"
                                 }`}
                         >

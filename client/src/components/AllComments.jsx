@@ -17,7 +17,7 @@ const AllComments = () => {
     const [getAllComments, setAllComments] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [commentIdToDelete, setCommentIdToDelete] = useState("");
-    const [startPage, setStartPage] = useState(1);
+    const [startPage, setStartPage] = useState(2);
 
 
 
@@ -39,7 +39,7 @@ const AllComments = () => {
                     });
                     const response = commentInfo.data.comments;
                     setAllComments(response);
-                    if (response.length > 4) {
+                    if (response.length > 9) {
                         setShowMoreButton(true);
                     }
                 } catch (error) {
@@ -67,13 +67,12 @@ const AllComments = () => {
                 headers: {
                     Authorization: user.token
                 },
-               
+
             });
 
             if (response.status === 200) {
                 const newComment = response.data.comments;
                 setStartPage(startPage + 1)
-                console.log(newComment);
                 setAllComments([...getAllComments, ...newComment])
 
 
@@ -232,8 +231,8 @@ const AllComments = () => {
                     <div className="text-center my-5">
                         <button
                             onClick={showMoreCommentButton}
-                            className={`transition-all active:scale-95 hover:bg-blue-900 py-2 font-semibold text-sm px-2 border-2 rounded-md  ${theme === "dark"
-                                ? "bg-gray-700 active:bg-gray-800 text-gray-200 border-gray-400"
+                            className={`transition-all active:scale-95 hover:bg-blue-900 py-1 font-semibold text-xs px-2 border rounded-sm ${theme === "dark"
+                                ? "bg-gray-700 active:bg-gray-800 text-gray-300 border-gray-400"
                                 : "active:bg-gray-600 active:text-white hover:text-white bg-gray-300 text-gray-800 border-gray-500"
                                 }`}
                         >

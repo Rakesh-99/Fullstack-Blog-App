@@ -156,7 +156,7 @@ export const getAllComments = asyncHandler(async (req, res, next) => {
 
     try {
         const startPageIndex = parseInt(req.query.page) || 1;
-        const limitComments = parseInt(req.query.limitComments) || 8;
+        const limitComments = parseInt(req.query.limitComments) || 10;
         const sortCommentsDirection = req.query.sort === 1 ? 'asc' : 'desc';
 
         const findComments = await commentModel.find()

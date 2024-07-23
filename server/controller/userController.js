@@ -29,7 +29,7 @@ export const getUser = asyncHandler(async (req, res, next) => {
 
 
         const startIndex = parseInt(req.query.page) || 1;
-        const showUserPerPage = parseInt(req.query.user) || 9;
+        const showUserPerPage = parseInt(req.query.user) || 8;
         const sortUser = req.query.sortUser === "asc" ? 1 : -1;
         const skipUser = (startIndex - 1) * showUserPerPage;
 
