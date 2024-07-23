@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Table, Toast } from "flowbite-react";
+import { Table } from "flowbite-react";
 import { NavLink } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import BlogPopupModal from "./BlogPopupModal";
 import BlogLoader from "../assests/blogSpinner/BlogLoader";
-import { PiSmileySad } from "react-icons/pi";
+
 
 const AllBlogs = () => {
     const { user } = useSelector((state) => state.userSliceApp);
@@ -56,10 +56,10 @@ const AllBlogs = () => {
     };
 
     // Show More button api :
-    const fetchBlogs = async (page = 2) => {
+    const fetchBlogs = async () => {
         try {
             const response = await axios.get(
-                `/api/blog/get-all-blogs?${user._id}&page=${page}`
+                `/api/blog/get-all-blogs?${user._id}&page=${page + 1}`
             );
             if (response.status === 200) {
                 setUserBlogs([...response.data.blogs, ...userBlogs]);
@@ -89,8 +89,8 @@ const AllBlogs = () => {
                     <Table hoverable className="my-5">
                         <Table.Head
                             className={`text-base ${theme === "dark"
-                                    ? "text-gray-100 bg-zinc-700 "
-                                    : "text-gray-700 bg-gray-300"
+                                ? "text-gray-100 bg-zinc-700 "
+                                : "text-gray-700 bg-gray-300"
                                 }`}
                         >
                             <Table.HeadCell
@@ -156,8 +156,8 @@ const AllBlogs = () => {
                                 <Table.Body key={index}>
                                     <Table.Row
                                         className={`text-center text-xs md:text-sm transition-all rounded-md ${theme === "dark"
-                                                ? "hover:bg-gray-800"
-                                                : "hover:bg-gray-100"
+                                            ? "hover:bg-gray-800"
+                                            : "hover:bg-gray-100"
                                             }`}
                                     >
                                         {/* Blog Date  */}
@@ -221,8 +221,8 @@ const AllBlogs = () => {
                             <button
                                 onClick={showMoreBlogsButton}
                                 className={`transition-all active:scale-95 hover:bg-blue-900 py-1 font-semibold text-xs px-2 border rounded-sm ${theme === "dark"
-                                        ? "bg-gray-700 active:bg-gray-800 text-gray-300 border-gray-400"
-                                        : "active:bg-gray-600 active:text-white hover:text-white bg-gray-300 text-gray-800 border-gray-500"
+                                    ? "bg-gray-700 active:bg-gray-800 text-gray-300 border-gray-400"
+                                    : "active:bg-gray-600 active:text-white hover:text-white bg-gray-300 text-gray-800 border-gray-500"
                                     }`}
                             >
                                 Show more..
